@@ -1,0 +1,7 @@
+project: fclones
+target: glob-parsing
+
+cmds:
+  - cmd: /glob_parsing
+  - cmd: /glob_parsing_no_inst @@
+    libfuzzer: false

@@ -1,0 +1,12 @@
+project: fclones
+# Parity with the fork's old root Mayhemfile (mayhem/glob_parsing.mayhemfile, target `glob-parsing`).
+# The old repo had a single glob-parsing target; this is now the instrumented libFuzzer binary
+# built from the additive mayhem/fuzz/ crate (the old black-box `_no_inst @@` variant is dropped in
+# favour of the coverage-guided libFuzzer entrypoint over the same Pattern::glob code path).
+target: glob-parsing
+
+cmds:
+  # libFuzzer target: Mayhem drives inputs through the libFuzzer entrypoint, so NO '@@'
+  # (Mayhem rejects '@@' on a libfuzzer:true target).
+  - cmd: /mayhem/glob_parsing
+    libfuzzer: true

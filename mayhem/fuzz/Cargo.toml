@@ -1,0 +1,33 @@
+# Standalone workspace so cargo doesn't fold this additive crate into fclones' workspace
+# (the upstream root is a [workspace]; an implicit member here would be rejected).
+[workspace]
+members = ["."]
+
+[package]
+name = "fclones-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.fclones]
+# Additive integration crate: depend on the upstream library by path (the `fclones` package
+# lives at <repo-root>/fclones; this crate is at <repo-root>/mayhem/fuzz). Upstream sources and
+# Cargo.toml are left untouched.
+path = "../../fclones"
+
+# Parity with the fork's old target (harness file `glob_parsing.rs`, Mayhem target `glob-parsing`).
+[[bin]]
+name = "glob_parsing"
+path = "fuzz_targets/glob_parsing.rs"
+test = false
+doc = false
+bench = false
+
+[profile.release]
+debug = 1
